@@ -1,3 +1,7 @@
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import ImageTabs from "@/components/image-tabs"
 
 export default function Home() {
   return (
@@ -9,11 +13,18 @@ export default function Home() {
             <h1 className="text-black mb-6 text-6xl font-bold">A simple and better way to track your application.</h1>
             <p className="text-muted-foreground mb-10 text-xl">Capture, organize, and manage your job search in one place.</p>
             <div className="flex flex-col items-center gap-4">
-              <button>Start for free</button>
-              <p>Free Forever. No credit card required.</p>
+              <Link href='/sign-up'>
+                <Button size='lg' className="h-12 px-8 text-lg font-medium">
+                  Start for free <ArrowRight className="ml-2" />
+                </Button>
+              </Link>
+              <p className="text-sm text-muted-foreground">Free Forever. No credit card required.</p>
             </div>
           </div>
         </section>
+
+        {/* Images section */}
+        <ImageTabs/>
       </main>
     </div>
   );
