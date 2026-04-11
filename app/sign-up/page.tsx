@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { signUp } from "@/lib/auth-client"
+import { signUp } from "@/lib/auth/auth-client"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -19,10 +19,9 @@ export default function SingUp() {
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
-
         setErrors("");
         setLoading(true);
-
+        debugger;
         try {
             const result = await signUp.email({
                 name, email, password
@@ -48,10 +47,10 @@ export default function SingUp() {
                         Create a account to start tracking your job application.
                     </CardDescription>
                 </CardHeader>
-                <form className="space-y-4">
+                <form className="space-y-4" onSubmit={handleSubmit}>
                     {
                         error && (
-                            <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">{error}</div>
+                            <div className="rounded-md bg-destructive/15 p-3 mx-3 text-sm text-destructive">{error}</div>
                         )
                     }
                     <CardContent className="flex flex-col gap-3">
@@ -71,7 +70,6 @@ export default function SingUp() {
                     <CardFooter className="flex flex-col">
                         <Button size="lg" className="w-full mb-3 text-[20px]" type="submit" disabled={loading}>
                         {loading ? "Creating Account...." : "Sign Up"}
-
                         </Button>
                         <p className="text-[20px]">Alredy have a account? <a href="/sign-in" className="text-primary underline">Sign In</a></p>
                     </CardFooter>

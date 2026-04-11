@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { signIn } from "@/lib/auth/auth-client"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 
 export default function Page() {
@@ -12,15 +14,23 @@ export default function Page() {
 
   const [error, setErrors] = useState('');
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-
     setErrors("");
     setLoading(true);
-
+    debugger;
     try {
-      
+      const result = await signIn.email({
+        email, password
+      })
+
+      if (result.error) {
+        setErrors(result.error?.message ?? "Failed to sign In ")
+      } else {
+        router.push('/dashboard')
+      }
     } catch (error) {
       setErrors("An Unexpected error occured");
     } finally {
@@ -36,7 +46,12 @@ export default function Page() {
             Enter your crenditals to access application.
           </CardDescription>
         </CardHeader>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          {
+            error && (
+              <div className="rounded-md bg-destructive/15 p-3 mx-3 text-sm text-destructive">{error}</div>
+            )
+          }
           <CardContent className="flex flex-col gap-3">
             <div className="space-y-2">
               <Label className="text-gray-700" htmlFor="email">Email</Label>
@@ -48,7 +63,9 @@ export default function Page() {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col">
-            <Button size="lg" className="w-full mb-3 text-[20px]" type="submit">Sign In</Button>
+            <Button size="lg" className="w-full mb-3 text-[20px]" type="submit" disabled={loading}>
+              {loading ? "Signing In...." : "Sign In"}
+            </Button>
             <p className="text-[10px] md:text-[20px]">Create a new account? <a href="/sign-up" className="text-primary underline">Sign Up</a></p>
           </CardFooter>
         </form>
