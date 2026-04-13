@@ -11,7 +11,7 @@ const Navbar = () => {
     const { data: session } = useSession();
     return (
         <nav className='border-b border-gray-200 bg-white'>
-            <div className='container mx-auto flex h-16 items-center p-4 justify-between'>
+            <div className='container mx-auto flex h-16 items-center p-6 justify-between'>
                 <Link href='/' className='flex items-center gap-2 text-xl font-semibold text-primary'>
                     <Briefcase />
                     Job Tracker
